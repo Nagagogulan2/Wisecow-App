@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,14 +19,5 @@ jobs:
 
       - name: Build & Push Docker Image
         run: |
-          docker build -t your-dockerhub-username/wisecow:${{ github.sha }} .
-          docker push your-dockerhub-username/wisecow:${{ github.sha }}
-
-      - name: Set up Kubeconfig
-        uses: azure/setup-kubectl@v3
-        with:
-          version: v1.29.0
-
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl set image deployment/wisecow-deployment wisecow=your-dockerhub-username/wisecow:${{ github.sha }}
+          docker build --no-cache -t nagagogulan/wisecow:latest .
+          docker push nagagogulan/wisecow:latest
